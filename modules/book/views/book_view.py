@@ -1,4 +1,4 @@
-from core.model.base_view import BaseView
+from core.view.base_view import BaseView
 
 class BookView(BaseView):
     def display_book_added(self, title):
