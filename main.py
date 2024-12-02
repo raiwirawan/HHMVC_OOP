@@ -1,6 +1,11 @@
 from modules.book.controllers.book_controllers import BookController
+from modules.person.controllers.person_controller import PersonController
 
-def main():
+def person():
+    person_controller = PersonController()
+    person_controller.run()
+
+def book():
     book_controller = BookController()
 
     while True:
@@ -25,6 +30,28 @@ def main():
             book_controller.remove_book(title)
         
         elif choice == '4':
+            print("Exiting...")
+            break
+        
+        else:
+            print("Invalid choice. Please try again.")
+
+def main():
+    while True:
+        print("\nLibrary Management System")
+        print("1. Manage Books")
+        print("2. Manage Persons")
+        print("3. Exit...")
+
+        choice = input("Enter your choice (1-3): ")
+
+        if choice == '1':
+            book()
+        
+        elif choice == '2':
+            person()
+        
+        elif choice == '3':
             print("Exiting...")
             break
         
