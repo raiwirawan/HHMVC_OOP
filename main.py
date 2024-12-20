@@ -1,8 +1,5 @@
 from modules.book.controllers.book_controllers import BookController
-<<<<<<< HEAD
-=======
 from modules.person.controllers.person_controller import PersonController
->>>>>>> e74d3ef972f9b6309997132e38b9d56f0f95615a
 
 def person():
     person_controller = PersonController()
