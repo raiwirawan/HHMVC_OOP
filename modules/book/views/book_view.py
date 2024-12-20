@@ -11,6 +11,8 @@ class BookView(BaseView):
         if not books:
             print("No books found.")
         else:
+            print("===================")
             print("Book List:")
             for book in books:
                 print(f"Title: {book[0]}, Author: {book[1]}")
+            print("===================")
