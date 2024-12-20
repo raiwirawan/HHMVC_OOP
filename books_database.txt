@@ -1,1 +1,7 @@
+<<<<<<< HEAD
 nata,tamagon
+=======
+lawak,rai
+Rama Sinta,Rsi Markandeya
+perjuangan,rai
+>>>>>>> e74d3ef972f9b6309997132e38b9d56f0f95615a
