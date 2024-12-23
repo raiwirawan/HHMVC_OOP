@@ -1,4 +1,4 @@
-from modules.book.controllers.book_controllers import BookController
+from modules.book.controllers.book_controller import BookController
 
 def main():
     book_controller = BookController()
