@@ -7,10 +7,10 @@ class BookModel(BaseModel):
         super().__init__(Config.DATABASE['books_file'])
         self.view = BookView()
     
-    def add_book(self, title, author):
+    def add_book(self, title, author, status):
         try:
             with open(self.database_file, 'a') as f:
-                f.write(f"{title},{author}\n")
+                f.write(f"{title},{author},{status}\n")
             return True
         except Exception as e:
             return False
@@ -38,11 +38,13 @@ class BookModel(BaseModel):
             
             new_title = input("Enter new title (press Enter to keep current): ").strip()
             new_author = input("Enter new author (press Enter to keep current): ").strip()
+            new_status = input("Enter new status (press Enter to keep current): ").strip()
 
             new_title = new_title if new_title else current_book[0]
             new_author = new_author if new_author else current_book[1]
+            new_status = new_status if new_status else current_book[2]
 
-            updated_book = f"{new_title},{new_author}\n"
+            updated_book = f"{new_title},{new_author},{new_status}\n"
             
             books[book_index] = updated_book
             
@@ -52,6 +54,7 @@ class BookModel(BaseModel):
             print("\n=======================")
             print(f"{current_book[0]} -> {new_title}")
             print(f"{current_book[1]} -> {new_author}")
+            print(f"{current_book[2]} -> {new_status}")
             
             return True
         except Exception as e:

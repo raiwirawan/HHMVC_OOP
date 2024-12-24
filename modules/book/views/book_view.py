@@ -15,6 +15,7 @@ class BookView(BaseView):
         print("\nCurrent book details:")
         print(f"Title: {book[0]}")
         print(f"Author: {book[1]}")
+        print(f"Status: {book[2]}")
     
     def display_books(self, books):
         index = 1;
@@ -24,6 +25,6 @@ class BookView(BaseView):
             print("\n===================")
             print("Book List:")
             for book in books:
-                print(f"{index}. Title: {book[0]}, Author: {book[1]}")
+                print(f"{index}. Title: {book[0]}, Author: {book[1]}, Status: {book[2]}")
                 index += 1
             print("===================\n")
