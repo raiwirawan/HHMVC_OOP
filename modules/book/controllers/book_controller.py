@@ -17,6 +17,19 @@ class BookController:
         books = self.model.get_books()
         self.view.display_books(books)
     
+    def update_book(self, book_index):
+        with open(self.model.database_file, 'r') as file:
+                books = file.readlines()
+        
+        book_title = books[book_index].strip().split(",")[0]
+        
+        result = self.model.update_book(book_index)
+
+        if result:
+            self.view.display_book_updated(book_title)
+        else:
+            self.view.display_error("Failed to update book")
+    
     def remove_book(self, title):
         result = self.model.delete_book(title)
         if result:

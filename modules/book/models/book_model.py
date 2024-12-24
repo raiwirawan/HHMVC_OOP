@@ -1,9 +1,11 @@
 from core.model.base_model import BaseModel
 from config.config import Config
+from modules.book.views.book_view import BookView
 
 class BookModel(BaseModel):
     def __init__(self):
         super().__init__(Config.DATABASE['books_file'])
+        self.view = BookView()
     
     def add_book(self, title, author):
         try:
@@ -20,6 +22,40 @@ class BookModel(BaseModel):
             return books
         except Exception as e:
             return []
+    
+    def update_book(self, book_index):
+        try:
+            with open(self.database_file, 'r') as file:
+                books = file.readlines()
+            
+            if book_index < 0 or book_index >= len(books):
+                print("Invalid book number!")
+                return
+            
+            current_book = books[book_index].strip().split(',')
+            
+            self.view.display_book_details(current_book)
+            
+            new_title = input("Enter new title (press Enter to keep current): ").strip()
+            new_author = input("Enter new author (press Enter to keep current): ").strip()
+
+            new_title = new_title if new_title else current_book[0]
+            new_author = new_author if new_author else current_book[1]
+
+            updated_book = f"{new_title},{new_author}\n"
+            
+            books[book_index] = updated_book
+            
+            with open(self.database_file, 'w') as file:
+                file.writelines(books)
+
+            print("\n=======================")
+            print(f"{current_book[0]} -> {new_title}")
+            print(f"{current_book[1]} -> {new_author}")
+            
+            return True
+        except Exception as e:
+            return False
     
     def delete_book(self, title):
         try:
