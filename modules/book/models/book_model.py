@@ -6,9 +6,14 @@ class BookModel(BaseModel):
     def __init__(self):
         super().__init__(Config.DATABASE['books_file'])
         self.view = BookView()
+        self.statuses = {"dipinjam", "tersedia"}
     
     def add_book(self, title, author, status):
         try:
+            if(title == "" or author == "" or status == ""):
+                print("Judul, Penulis, dan Status buku tidak valid")
+                return
+
             with open(self.database_file, 'a') as f:
                 f.write(f"{title},{author},{status}\n")
             return True
@@ -28,17 +33,25 @@ class BookModel(BaseModel):
             with open(self.database_file, 'r') as file:
                 books = file.readlines()
             
-            if book_index < 0 or book_index >= len(books):
-                print("Invalid book number!")
-                return
+            # validasi sudah ada di book_controller
+            # if book_index < 0 or book_index >= len(books):
+            #     print("Nomor buku tidak valid!")
+            #     return
             
             current_book = books[book_index].strip().split(',')
             
             self.view.display_book_details(current_book)
             
-            new_title = input("Enter new title (press Enter to keep current): ").strip()
-            new_author = input("Enter new author (press Enter to keep current): ").strip()
-            new_status = input("Enter new status (press Enter to keep current): ").strip()
+            new_title = input("Masukkan judul baru (tekan Enter tidak mau ubah): ").strip()
+            new_author = input("Masukkan penulis baru (tekan Enter tidak mau ubah): ").strip()
+            new_status = input("Masukkan status baru (tekan Enter tidak mau ubah): ").strip()
+
+            if new_status == "":
+                new_status = current_book[2]
+
+            if not self.validate_status(new_status):
+                print("Status hanya boleh 'dipinjam' dan 'tersedia'")
+                return False
 
             new_title = new_title if new_title else current_book[0]
             new_author = new_author if new_author else current_book[1]
@@ -60,14 +73,37 @@ class BookModel(BaseModel):
         except Exception as e:
             return False
     
-    def delete_book(self, title):
+    def borrow_book(self, book_index):
         try:
-            books = self.get_books()
-            updated_books = [book for book in books if book[0] != title]
+            with open(self.database_file, 'r') as file:
+                books = file.readlines()
             
-            with open(self.database_file, 'w') as f:
-                for book in updated_books:
-                    f.write(f"{book[0]},{book[1]}\n")
+            current_book = books[book_index].strip().split(',')
+
+            self.view.display_book_details(current_book)
+
             return True
         except Exception as e:
             return False
+    
+    def delete_book(self, book_index):
+        try:
+            with open(self.database_file, "r") as f:
+                books = f.readlines()
+
+            # validasi sudah ada di book_controller
+            # if book_index < 0 or book_index >= len(books):
+            #     print("Nomor buku tidak valid!")
+            #     return
+            
+            books.pop(book_index)
+
+            with open(self.database_file, "w") as f:
+                f.writelines(books)
+    
+            return True
+        except Exception as e:
+            return False
+
+    def validate_status(self, status):
+        return status in self.statuses

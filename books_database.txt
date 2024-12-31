@@ -1,1 +1,3 @@
-Journey of Nata Inditama,Tamagon,Ada
+Buku 1,Penulis 1,tersedia
+Buku 2,Penulis 2,dipinjam
+Buku 3,Penulis 3,tersedia

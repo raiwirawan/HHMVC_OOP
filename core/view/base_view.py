@@ -7,7 +7,7 @@ class BaseView:
     
     def display_list(self, items):
         if not items:
-            print("No items found.")
+            print("Tidak ada hal yg ditemukan")
         else:
             for item in items:
                 print(item)

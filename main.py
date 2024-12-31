@@ -4,38 +4,57 @@ def main():
     book_controller = BookController()
 
     while True:
-        print("\nBook Management System")
-        print("1. Add Book")
-        print("2. List Books")
-        print("3. Update Book")
-        print("4. Delete Book")
-        print("5. Exit")
+        print("\nSistem Kelola Buku")
+        print("1. Tambah Buku")
+        print("2. List Buku")
+        print("3. Ubah Buku")
+        print("4. Pinjam Buku")
+        print("5. Hapus Buku")
+        print("6. Keluar")
         
-        choice = input("Enter your choice (1-4): ")
+        choice = input("Masukkan pilihanmu (1-6): ")
 
         if choice == '1':
-            title = input("Enter book title: ")
-            author = input("Enter book author: ")
-            book_controller.add_book(title, author)
+            book_controller.list_books()
+            title = input("Masukkan judul buku: ").strip()
+            author = input("Masukkan penulis buku: ").strip()
+            status = input("Masukkan status buku: ").strip()
+            if not book_controller.validate_status(status):
+                print("Gagal menambah buku")
+                print("Status hanya bisa 'dipinjam' dan 'tersedia'")
+                continue
+            book_controller.add_book(title, author, status)
         
         elif choice == '2':
             book_controller.list_books()
 
         elif choice == '3':
             book_controller.list_books()
-            book_index = int(input("Enter the number of the book you want to update: ")) - 1
+            if book_controller.verify_books_empty():
+                continue
+            book_index = int(input("Masukkan nomor buku yang ingin kamu ubah: ")) - 1
+            book_controller.update_book(book_index)
+
+        elif choice == '4':
+            book_controller.list_available_books()
+            if book_controller.verify_books_empty():
+                continue
+            book_index = int(input("Masukkan nomor buku yang ingin kamu pinjam: ")) - 1
             book_controller.update_book(book_index)
         
-        elif choice == '4':
-            title = input("Enter book title to delete: ")
-            book_controller.remove_book(title)
-        
         elif choice == '5':
+            book_controller.list_books()
+            if book_controller.verify_books_empty():
+                continue
+            book_index = int(input("Masukkan nomor buku yang ingin kamu hapus: ")) - 1
+            book_controller.remove_book(book_index)
+        
+        elif choice == '6':
             print("Exiting...")
             break
         
         else:
-            print("Invalid choice. Please try again.")
+            print("Pilihan tidak valid, coba lagi")
 
 if __name__ == "__main__":
     main()
