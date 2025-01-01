@@ -19,7 +19,17 @@ class BookController:
 
     def list_available_books(self):
         books = self.model.get_books()
-        self.view.display_available_books(books)
+        if self.view.display_available_books(books):
+            return True
+        else:
+            return False
+    
+    def list_borrowed_books(self):
+        books = self.model.get_books()
+        if self.view.display_borrowed_books(books):
+            return True
+        else:
+            return False
  
     def update_book(self, book_index):
         with open(self.model.database_file, 'r') as file:
@@ -48,10 +58,27 @@ class BookController:
         
         book_title = books[book_index].strip().split(",")[0]
         
-        result = self.model.update_book(book_index)
+        result = self.model.borrow_book(book_index)
 
         if result:
-            self.view.display_book_updated(book_title)
+            self.view.display_book_borrowed(book_title)
+        else:
+            self.view.display_error("Gagal pinjam buku")
+    
+    def return_book(self, book_index):
+        with open(self.model.database_file, 'r') as file:
+            books = file.readlines()
+
+        if book_index < 0 or book_index >= len(books):
+            print("Nomor buku tidak valid!")
+            return
+        
+        book_title = books[book_index].strip().split(",")[0]
+        
+        result = self.model.return_book(book_index)
+
+        if result:
+            self.view.display_book_returned(book_title)
         else:
             self.view.display_error("Gagal pinjam buku")
     

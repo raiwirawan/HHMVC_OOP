@@ -9,8 +9,9 @@ def main():
         print("2. List Buku")
         print("3. Ubah Buku")
         print("4. Pinjam Buku")
-        print("5. Hapus Buku")
-        print("6. Keluar")
+        print("5. Kembalikan Buku")
+        print("6. Hapus Buku")
+        print("7. Keluar")
         
         choice = input("Masukkan pilihanmu (1-6): ")
 
@@ -36,20 +37,29 @@ def main():
             book_controller.update_book(book_index)
 
         elif choice == '4':
-            book_controller.list_available_books()
+            if not book_controller.list_available_books():
+                continue
             if book_controller.verify_books_empty():
                 continue
             book_index = int(input("Masukkan nomor buku yang ingin kamu pinjam: ")) - 1
-            book_controller.update_book(book_index)
+            book_controller.borrow_book(book_index)
         
         elif choice == '5':
+            if not book_controller.list_borrowed_books():
+                continue
+            if book_controller.verify_books_empty():
+                continue
+            book_index = int(input("Masukkan nomor buku yang ingin kamu kembalikan: ")) - 1
+            book_controller.return_book(book_index)
+        
+        elif choice == '6':
             book_controller.list_books()
             if book_controller.verify_books_empty():
                 continue
             book_index = int(input("Masukkan nomor buku yang ingin kamu hapus: ")) - 1
             book_controller.remove_book(book_index)
         
-        elif choice == '6':
+        elif choice == '7':
             print("Exiting...")
             break
         

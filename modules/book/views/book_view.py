@@ -6,7 +6,15 @@ class BookView(BaseView):
 
     def display_book_updated(self, title):
         print(f"Buku '{title}' berhasil diubah!")
-        print("=======================")
+        # print("=======================")
+
+    def display_book_borrowed(self, title):
+        print(f"Buku '{title}' berhasil dipinjam!")
+        # print("=======================")
+    
+    def display_book_returned(self, title):
+        print(f"Buku '{title}' berhasil dikembalikan!")
+        # print("=======================")
     
     def display_book_deleted(self, title):
         print(f"Buku '{title}' berhasil dihapus!")
@@ -34,10 +42,37 @@ class BookView(BaseView):
         if not books:
             print("Tidak ada buku ditemukan.")
         else:
+            available_books = []
             print("\n===================")
             print("Daftar Buku yang Dapat Dipinjam (Tersedia):")
             for book in books:
                 if book[2] == 'tersedia':
                     print(f"{index}. Judul: {book[0]}, Penulis: {book[1]}, Status: {book[2]}")
+                    available_books.append(book)
                 index += 1
+            if len(available_books) < 1:
+                print("Tidak ada buku yang tersedia")
+                print("===================\n")
+                return False
             print("===================\n")
+        return True
+    
+    def display_borrowed_books(self, books):
+        index = 1
+        if not books:
+            print("Tidak ada buku ditemukan.")
+        else:
+            borrowed_books = []
+            print("\n===================")
+            print("Daftar Buku yang telah dipinjam (Dipinjam):")
+            for book in books:
+                if book[2] == 'dipinjam':
+                    print(f"{index}. Judul: {book[0]}, Penulis: {book[1]}, Status: {book[2]}")
+                    borrowed_books.append(book)
+                index += 1
+            if len(borrowed_books) < 1:
+                print("Tidak ada buku yang tersedia")
+                print("===================\n")
+                return False
+            print("===================\n")
+        return True

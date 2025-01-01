@@ -82,6 +82,47 @@ class BookModel(BaseModel):
 
             self.view.display_book_details(current_book)
 
+            current_book[2] = "dipinjam"
+
+            updated_book = f"{current_book[0]},{current_book[1]},{current_book[2]}\n"
+
+            books[book_index] = updated_book
+
+            with open(self.database_file, 'w') as file:
+                file.writelines(books)
+
+            print("\n=======================")
+            print(f"{current_book[0]}")
+            print(f"{current_book[1]}")
+            print(f"{current_book[2]}")
+
+            return True
+        except Exception as e:
+            return False
+    
+    def return_book(self, book_index):
+        try:
+            with open(self.database_file, 'r') as file:
+                books = file.readlines()
+            
+            current_book = books[book_index].strip().split(',')
+
+            self.view.display_book_details(current_book)
+
+            current_book[2] = "tersedia"
+
+            updated_book = f"{current_book[0]},{current_book[1]},{current_book[2]}\n"
+
+            books[book_index] = updated_book
+
+            with open(self.database_file, 'w') as file:
+                file.writelines(books)
+
+            print("\n=======================")
+            print(f"{current_book[0]}")
+            print(f"{current_book[1]}")
+            print(f"{current_book[2]}")
+
             return True
         except Exception as e:
             return False
