@@ -13,7 +13,7 @@ def main():
         print("6. Hapus Buku")
         print("7. Keluar")
         
-        choice = input("Masukkan pilihanmu (1-6): ")
+        choice = input("Masukkan pilihanmu (1-7): ")
 
         if choice == '1':
             book_controller.list_books()
